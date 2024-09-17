@@ -14,6 +14,9 @@ public class Window {
     private final PajeetScroller pajeetScroller;
     private long window;
 
+    private final int width = 1200;
+    private final int height = 600;
+
     public Window(PajeetScroller pajeetScroller) {
         this.pajeetScroller = pajeetScroller;
         init();
@@ -36,7 +39,7 @@ public class Window {
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 
-        window = glfwCreateWindow(1200, 600, "PajeetScroller", NULL, NULL);
+        window = glfwCreateWindow(width, height, "PajeetScroller", NULL, NULL);
         if (window == NULL) throw new RuntimeException("Failed to create the GLFW window");
 
         glfwMakeContextCurrent(window);
@@ -47,6 +50,7 @@ public class Window {
     private void loop() {
         GL.createCapabilities();
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        glOrtho(0, width, height, 0, -1, 1);
 
         while (!glfwWindowShouldClose(window)) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
