@@ -10,6 +10,7 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
 import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
+import static org.lwjgl.opengl.GL14.GL_BLEND_SRC_RGB;
 import static org.lwjgl.opengl.GL30.glGenerateMipmap;
 
 public class Texture {
@@ -50,17 +51,25 @@ public class Texture {
         this.textureId = textureId;
     }
 
+
     public void drawQuad(float x, float y) {
+        drawQuad(x, y, this.width, this.height);
+    }
+
+    public void drawQuad(float x, float y, float width, float height) {
         glEnable(GL_TEXTURE_2D);
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, textureId);
 
+        glEnable(GL_BLEND);
+        glBlendFunc(770, 771);
         glBegin(GL_QUADS);
         glTexCoord2f(0, 0); glVertex2f(x, y);
         glTexCoord2f(1, 0); glVertex2f(x + width, y);
         glTexCoord2f(1, 1); glVertex2f(x + width, y + height);
         glTexCoord2f(0, 1); glVertex2f(x, y + height);
         glEnd();
+        glDisable(GL_BLEND);
 
         glBindTexture(GL_TEXTURE_2D, 0);
         glDisable(GL_TEXTURE_2D);

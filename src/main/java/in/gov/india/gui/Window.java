@@ -2,6 +2,9 @@ package in.gov.india.gui;
 
 import in.gov.india.PajeetScroller;
 import in.gov.india.events.EventGameClosed;
+import in.gov.india.gui.screen.GuiScreen;
+import in.gov.india.gui.screen.impl.GuiMainMenu;
+import in.gov.india.gui.textures.Texture;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 
@@ -14,12 +17,18 @@ public class Window {
     private final PajeetScroller pajeetScroller;
     private long window;
 
-    private final int width = 1200;
-    private final int height = 600;
+    private ScreenResolution resolution = new ScreenResolution(1200, 600);
+    private GuiScreen screen;
 
     public Window(PajeetScroller pajeetScroller) {
         this.pajeetScroller = pajeetScroller;
         init();
+        this.setScreen(new GuiMainMenu(pajeetScroller));
+    }
+
+    public void setScreen(GuiScreen screen) {
+        screen.initializeGui(this.resolution);
+        this.screen = screen;
     }
 
     public void begin() {
@@ -39,8 +48,14 @@ public class Window {
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
 
-        window = glfwCreateWindow(width, height, "PajeetScroller", NULL, NULL);
+        window = glfwCreateWindow(this.resolution.getWidthI(), this.resolution.getHeightI(), "PajeetScroller", NULL, NULL);
         if (window == NULL) throw new RuntimeException("Failed to create the GLFW window");
+
+        glfwSetFramebufferSizeCallback(window, (window, newWidth, newHeight) -> {
+            this.resolution = new ScreenResolution(newWidth, newHeight);
+            glViewport(0, 0, newWidth, newHeight);
+            screen.initializeGui(this.resolution);
+        });
 
         glfwMakeContextCurrent(window);
         glfwSwapInterval(1);
@@ -50,15 +65,24 @@ public class Window {
     private void loop() {
         GL.createCapabilities();
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-        glOrtho(0, width, height, 0, -1, 1);
 
         while (!glfwWindowShouldClose(window)) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            pajeetScroller.getTextureManager().getTexture("img.png").drawQuad(3, 3);
+            glMatrixMode(GL_PROJECTION);
+            glLoadIdentity();
+            glOrtho(0, this.resolution.getWidthI(), this.resolution.getHeightI(), 0, -1, 1);
+            glMatrixMode(GL_MODELVIEW);
+            glLoadIdentity();
+
+            this.screen.drawGui(resolution);
 
             glfwSwapBuffers(window);
             glfwPollEvents();
         }
+    }
+
+    public ScreenResolution getResolution() {
+        return resolution;
     }
 }
