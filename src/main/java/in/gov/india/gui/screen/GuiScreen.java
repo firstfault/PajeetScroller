@@ -35,6 +35,7 @@ public abstract class GuiScreen {
         }
     }
 
-    protected abstract void initialize(Window sr);
-    protected abstract void draw(Window sr);
+    public abstract void close(Window window);
+    protected abstract void initialize(Window window);
+    protected abstract void draw(Window window);
 }

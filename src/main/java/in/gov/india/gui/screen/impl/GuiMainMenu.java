@@ -1,7 +1,10 @@
 package in.gov.india.gui.screen.impl;
 
+import com.google.common.eventbus.Subscribe;
+import in.gov.india.events.EventGameTick;
 import in.gov.india.gui.ScreenResolution;
 import in.gov.india.gui.Window;
+import in.gov.india.gui.audio.Sound;
 import in.gov.india.gui.screen.GuiScreen;
 import in.gov.india.gui.screen.buttons.GuiButton;
 import in.gov.india.gui.textures.Texture;
@@ -11,8 +14,12 @@ import org.lwjgl.opengl.GL11;
 import static org.lwjgl.glfw.GLFW.glfwSetWindowShouldClose;
 
 public final class GuiMainMenu extends GuiScreen {
+    private Sound soundtrack;
+
     @Override
     public void initialize(Window window) {
+        this.soundtrack = window.getAudioManager().getSound("menu_soundtrack.ogg");
+
         ScreenResolution sr = window.getResolution();
         float btnWidth = 250.F;
         float btnHeight = 50.F;
@@ -24,16 +31,9 @@ public final class GuiMainMenu extends GuiScreen {
         buttons.add(new GuiButton("Tuc Tuc", sr.getWidth() / 2.F - btnWidth / 2.F, y + (10.F + btnHeight) * 2, btnWidth, btnHeight, () -> this.leave(window)));
     }
 
-    private void leave(Window window) {
-        glfwSetWindowShouldClose(window.getPointer(), true);
-    }
-
-    private void settings() {
-
-    }
-
-    private void singleplayer() {
-
+    @Override
+    protected void close(Window window) {
+        soundtrack.stop();
     }
 
     @Override
@@ -50,5 +50,24 @@ public final class GuiMainMenu extends GuiScreen {
         GL11.glRotatef(180.F, 0, 1, 0);
         flag.drawQuad(0, 0, flag.getWidth(), sr.getHeight() - 180);
         GL11.glPopMatrix();
+    }
+
+    @Subscribe
+    public void onGameTick(EventGameTick event) {
+        if (!this.soundtrack.isPlaying()) {
+            this.soundtrack.replay();
+        }
+    }
+
+    private void leave(Window window) {
+        glfwSetWindowShouldClose(window.getPointer(), true);
+    }
+
+    private void settings() {
+
+    }
+
+    private void singleplayer() {
+
     }
 }

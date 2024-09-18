@@ -21,6 +21,7 @@ public class GuiButton extends ScreenPosition {
 
     public void handleClick(EventMouseButton event) {
         if (event.isPressed() && event.getButton() == MouseButton.LEFT) {
+
             this.action.run();
         }
     }

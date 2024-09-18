@@ -2,11 +2,14 @@ package in.gov.india.gui;
 
 import in.gov.india.PajeetScroller;
 import in.gov.india.events.EventGameClosed;
+import in.gov.india.events.EventGameTick;
 import in.gov.india.events.EventMouseButton;
+import in.gov.india.gui.audio.AudioManager;
 import in.gov.india.gui.misc.MouseButton;
 import in.gov.india.gui.render.Renderer;
 import in.gov.india.gui.screen.GuiScreen;
 import in.gov.india.gui.screen.impl.GuiMainMenu;
+import in.gov.india.util.Stopwatch;
 import org.lwjgl.glfw.*;
 import org.lwjgl.nanovg.NanoVGGL3;
 import org.lwjgl.opengl.*;
@@ -21,12 +24,14 @@ import static org.lwjgl.system.MemoryUtil.*;
 
 public class Window {
     private final PajeetScroller pajeetScroller;
+    private final AudioManager audioManager = new AudioManager();
     private ScreenResolution resolution = new ScreenResolution(1200, 600);
     private Vector2f mousePosition = new Vector2f(0, 0);
     private GuiScreen screen;
     private long window;
     private long vg;
     private Renderer renderer;
+    private Stopwatch tick = new Stopwatch();
 
     public Window(PajeetScroller pajeetScroller) {
         this.pajeetScroller = pajeetScroller;
@@ -40,6 +45,7 @@ public class Window {
             return;
         }
         if (this.screen != null) {
+            this.screen.close(this);
             pajeetScroller.getEventBus().unregister(this.screen);
         }
         screen.initializeGui(this);
@@ -53,6 +59,7 @@ public class Window {
         glfwDestroyWindow(window);
         glfwTerminate();
         glfwSetErrorCallback(null).free();
+        audioManager.cleanup();
         pajeetScroller.getEventBus().post(new EventGameClosed());
     }
 
@@ -81,6 +88,8 @@ public class Window {
             }
         });
 
+        audioManager.init();
+
         glfwMakeContextCurrent(window);
         glfwSwapInterval(1);
         glfwShowWindow(window);
@@ -102,9 +111,13 @@ public class Window {
             glMatrixMode(GL_MODELVIEW);
             glLoadIdentity();
 
-
             nvgBeginFrame(vg, this.resolution.getWidth(), this.resolution.getHeight(), 2);
             nvgShapeAntiAlias(vg, false);
+
+            if (tick.hasPassed(50L)) {
+                pajeetScroller.getEventBus().post(new EventGameTick());
+                tick.reset();
+            }
 
             this.screen.drawGui(this);
 
@@ -121,6 +134,10 @@ public class Window {
 
     public long getPointer() {
         return window;
+    }
+
+    public AudioManager getAudioManager() {
+        return audioManager;
     }
 
     public Renderer getRenderer() {
