@@ -1,8 +1,10 @@
 package in.gov.india.gui.textures;
 
+import in.gov.india.gui.screen.ScreenPosition;
 import org.lwjgl.stb.STBImage;
 import org.lwjgl.system.MemoryStack;
 
+import javax.vecmath.Tuple4f;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
@@ -53,24 +55,42 @@ public class Texture {
 
 
     public void drawQuad(float x, float y) {
-        drawQuad(x, y, this.width, this.height);
+        drawQuad(x, y, 1.F);
+    }
+
+    public void drawQuad(float x, float y, float alpha) {
+        drawQuad(x, y, this.width, this.height, alpha);
+    }
+
+    public void drawQuad(Tuple4f pos) {
+        drawQuad(pos, 1.F);
+    }
+
+    public void drawQuad(Tuple4f pos, float alpha) {
+        drawQuad(pos.x, pos.y, pos.w, pos.z, alpha);
     }
 
     public void drawQuad(float x, float y, float width, float height) {
+        drawQuad(x, y, width, height, 1.F);
+    }
+
+    public void drawQuad(float x, float y, float width, float height, float alpha) {
         glEnable(GL_TEXTURE_2D);
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, textureId);
 
         glEnable(GL_BLEND);
-        glBlendFunc(770, 771);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glColor4f(1.0f, 1.0f, 1.0f, alpha);
+
         glBegin(GL_QUADS);
         glTexCoord2f(0, 0); glVertex2f(x, y);
         glTexCoord2f(1, 0); glVertex2f(x + width, y);
         glTexCoord2f(1, 1); glVertex2f(x + width, y + height);
         glTexCoord2f(0, 1); glVertex2f(x, y + height);
         glEnd();
-        glDisable(GL_BLEND);
 
+        glDisable(GL_BLEND);
         glBindTexture(GL_TEXTURE_2D, 0);
         glDisable(GL_TEXTURE_2D);
     }

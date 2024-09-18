@@ -1,30 +1,24 @@
 package in.gov.india.gui.screen;
 
-public class ScreenPosition {
-    protected float x, y;
-    protected float width, height;
+import javax.vecmath.Vector2d;
+import javax.vecmath.Vector2f;
+import javax.vecmath.Vector4d;
+import javax.vecmath.Vector4f;
 
+public class ScreenPosition extends Vector4f {
     public ScreenPosition() {
     }
 
     public ScreenPosition(float x, float y, float width, float height) {
         this.x = x;
         this.y = y;
-        this.width = width;
-        this.height = height;
+        this.w = width;
+        this.z = height;
     }
 
     public ScreenPosition(float width, float height) {
-        this.width = width;
-        this.height = height;
-    }
-
-    public void setX(float x) {
-        this.x = x;
-    }
-
-    public void setY(float y) {
-        this.y = y;
+        this.w = width;
+        this.z = height;
     }
 
     public void setSize(float width, float height) {
@@ -37,36 +31,32 @@ public class ScreenPosition {
         this.setY(y);
     }
 
-    public float getX() {
-        return x;
-    }
-
-    public float getY() {
-        return y;
-    }
-
     public float getWidth() {
-        return width;
+        return w;
     }
 
     public float getHeight() {
-        return height;
+        return z;
     }
 
     public void setWidth(float width) {
-        this.width = width;
+        this.w = width;
     }
 
     public void setHeight(float height) {
-        this.height = height;
+        this.z = height;
     }
 
     public boolean isInside(float x, float y) {
-        return x >= this.x && y >= this.y && x < this.x + this.width && y < this.y + this.height;
+        return x >= this.x && y >= this.y && x < this.x + this.getWidth() && y < this.y + this.getHeight();
     }
 
     public boolean intersects(ScreenPosition other) {
-        return this.x < other.x + other.width && this.x + this.width > other.x &&
-                this.y < other.y + other.height && this.y + this.height > other.y;
+        return this.x < other.x + other.getWidth() && this.x + this.getWidth() > other.x &&
+                this.y < other.y + other.getHeight() && this.y + this.getHeight()> other.y;
+    }
+
+    protected boolean isInside(Vector2f position) {
+        return this.isInside(position.x, position.y);
     }
 }

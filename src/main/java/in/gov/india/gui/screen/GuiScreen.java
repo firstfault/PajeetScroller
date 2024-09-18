@@ -1,42 +1,40 @@
 package in.gov.india.gui.screen;
 
-import in.gov.india.PajeetScroller;
-import in.gov.india.gui.ScreenResolution;
+import com.google.common.eventbus.Subscribe;
+import in.gov.india.events.EventMouseButton;
+import in.gov.india.gui.Window;
 import in.gov.india.gui.screen.buttons.GuiButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class GuiScreen {
-    protected final PajeetScroller ps;
     protected final List<GuiButton> buttons = new ArrayList<>();
 
-    public GuiScreen(PajeetScroller ps) {
-        this.ps = ps;
-    }
-
-    public final void drawGui(ScreenResolution sr) {
-        draw(sr);
+    public final void drawGui(Window window) {
+        draw(window);
 
         for (GuiButton button : buttons) {
-            button.draw();
+            button.draw(window);
         }
     }
 
-    public final void initializeGui(ScreenResolution sr) {
+    public final void initializeGui(Window window) {
         buttons.clear();
 
-        initialize(sr);
+        initialize(window);
+    }
 
+    @Subscribe
+    public void onMouseButton(EventMouseButton event) {
         for (GuiButton button : buttons) {
-            button.setGuiScreen(this);
+            if (button.isInside(event.getCoordinates())) {
+                button.handleClick(event);
+                break;
+            }
         }
     }
 
-    public PajeetScroller getPajeetScroller() {
-        return ps;
-    }
-
-    protected abstract void initialize(ScreenResolution sr);
-    protected abstract void draw(ScreenResolution sr);
+    protected abstract void initialize(Window sr);
+    protected abstract void draw(Window sr);
 }

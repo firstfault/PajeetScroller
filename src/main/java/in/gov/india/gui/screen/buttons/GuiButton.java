@@ -1,23 +1,37 @@
 package in.gov.india.gui.screen.buttons;
 
-import in.gov.india.gui.screen.GuiScreen;
+import in.gov.india.events.EventMouseButton;
+import in.gov.india.gui.Window;
+import in.gov.india.gui.misc.MouseButton;
+import in.gov.india.gui.render.FontRenderer;
+import in.gov.india.gui.render.FontType;
 import in.gov.india.gui.screen.ScreenPosition;
+import in.gov.india.gui.textures.Texture;
+import in.gov.india.util.ColorUtil;
 
 public class GuiButton extends ScreenPosition {
-    private GuiScreen guiScreen;
-    private String text;
+    private final String text;
+    private final Runnable action;
 
-    public GuiButton(String text, float x, float y, float width, float height) {
+    public GuiButton(String text, float x, float y, float width, float height, Runnable action) {
         super(x, y, width, height);
         this.text = text;
+        this.action = action;
     }
 
-    public void setGuiScreen(GuiScreen guiScreen) {
-        this.guiScreen = guiScreen;
+    public void handleClick(EventMouseButton event) {
+        if (event.isPressed() && event.getButton() == MouseButton.LEFT) {
+            this.action.run();
+        }
     }
 
-    public void draw() {
-        guiScreen.getPajeetScroller().getTextureManager().getTexture("button.png").drawQuad(this.x, this.y, this.width, this.height);
+    public void draw(Window window) {
+        final boolean hovered = this.isInside(window.getMousePosition());
+        Texture texture = window.getPajeetScroller().getTextureManager().getTexture("button.png");
+        texture.drawQuad(this, hovered ? 1.F : 0.8F);
+        FontRenderer font = window.getRenderer().getSatisfyRegular().get(32.F);
+        float stringWidth = font.getStringWidth(this.text);
+        font.drawString(this.text, this.x + (this.getWidth() / 2.F) - (stringWidth / 2.F), this.y + 8.f, ColorUtil.generateWhiteColor(hovered ? 250 : 200));
     }
 
     public String getText() {
