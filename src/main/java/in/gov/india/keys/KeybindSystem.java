@@ -14,7 +14,7 @@ public class KeybindSystem {
     private final List<Keybind> keybindList = new ArrayList<>();
 
     // Movement
-    public final Keybind moveW, moveA, moveS, moveD;
+    public final Keybind moveW, moveA, moveS, moveD, space;
     // Misc
     public final Keybind pauseGame;
 
@@ -27,6 +27,7 @@ public class KeybindSystem {
         this.add(this.moveA = new Keybind("moveA", GLFW.GLFW_KEY_A));
         this.add(this.moveS = new Keybind("moveS", GLFW.GLFW_KEY_S));
         this.add(this.moveD = new Keybind("moveD", GLFW.GLFW_KEY_D));
+        this.add(this.space = new Keybind("space", GLFW.GLFW_KEY_SPACE));
 
         this.add(this.pauseGame = new Keybind("pauseGame", GLFW.GLFW_KEY_ESCAPE));
     }
