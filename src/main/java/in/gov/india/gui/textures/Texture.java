@@ -1,6 +1,5 @@
 package in.gov.india.gui.textures;
 
-import in.gov.india.gui.screen.ScreenPosition;
 import org.lwjgl.stb.STBImage;
 import org.lwjgl.system.MemoryStack;
 
@@ -9,17 +8,18 @@ import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
 import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
-import static org.lwjgl.opengl.GL14.GL_BLEND_SRC_RGB;
 import static org.lwjgl.opengl.GL30.glGenerateMipmap;
 
 public class Texture {
+    private final String assetPath;
     private final int textureId;
     private final int width, height;
+    private Collision collision;
 
     public Texture(String assetPath) {
+        this.assetPath = assetPath;
         String path = "assets/" + assetPath;
         int textureId;
 
@@ -53,6 +53,16 @@ public class Texture {
         this.textureId = textureId;
     }
 
+    public String getAssetPath() {
+        return assetPath;
+    }
+
+//    public Collision getCollision() {
+//        if (collision == null) {
+//            collision = new Collision(this);
+//        }
+//        return collision;
+//    }
 
     public void drawQuad(float x, float y) {
         drawQuad(x, y, 1.F);

@@ -15,11 +15,11 @@ public class GuiButton extends ScreenPosition {
     public GuiButton(String text, Runnable action) {
         this.text = text;
         this.action = action;
+        this.setSize(250.F, 50.F);
     }
 
     public void handleClick(EventMouseButton event) {
         if (event.isPressed() && event.getButton() == MouseButton.LEFT) {
-
             this.action.run();
         }
     }

@@ -2,11 +2,11 @@ package in.gov.india.gui.screen.impl;
 
 import com.google.common.eventbus.Subscribe;
 import in.gov.india.events.EventGamePaused;
-import in.gov.india.events.EventKeybind;
 import in.gov.india.game.Game;
 import in.gov.india.gui.Window;
 import in.gov.india.gui.render.FontRenderer;
 import in.gov.india.gui.screen.GuiScreen;
+import in.gov.india.gui.screen.actions.GuiAction;
 import in.gov.india.gui.screen.buttons.GuiButton;
 import in.gov.india.util.ColorUtil;
 
@@ -22,15 +22,8 @@ public class GuiGame extends GuiScreen {
     }
 
     @Override
-    public void close(Window window) {
+    public void close(Window window, GuiScreen nextScreen) {
         game.stop();
-    }
-
-    @Subscribe
-    private void onKeybind(EventKeybind event) {
-        if (event.isPressed() && event.getKeybindSystem().pauseGame == event.getKeybind()) {
-            this.game.setPaused(!this.game.isPaused());
-        }
     }
 
     @Override
@@ -49,6 +42,13 @@ public class GuiGame extends GuiScreen {
         }
     }
 
+    @Override
+    protected void fireAction(Window window, GuiAction action) {
+        if (action == GuiAction.ESCAPE) {
+            this.game.setPaused(!this.game.isPaused());
+        }
+    }
+
     @Subscribe
     public void onGamePause(EventGamePaused event) {
         if (event.isPaused()) {
@@ -59,7 +59,7 @@ public class GuiGame extends GuiScreen {
     }
 
     private void addPauseButtons(Window window) {
-        this.addHorizontalMiddleButtons(window, 230.F,
+        this.addVerticalMiddleButtons(window, 230.F,
                 new GuiButton("Resume", () -> this.getGame().setPaused(false)),
                 new GuiButton("Options", () -> this.options(window)),
                 new GuiButton("Exit Game", () -> this.exit(window)));

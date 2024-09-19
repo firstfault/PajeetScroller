@@ -19,7 +19,7 @@ public final class EntityItem extends Entity {
     }
 
     @Override
-    protected Texture getTexture() {
+    public Texture getTexture() {
         return getItem().getTexture();
     }
 }

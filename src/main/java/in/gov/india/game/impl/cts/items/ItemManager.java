@@ -25,7 +25,8 @@ public class ItemManager {
 
     public void update() {
         if (++this.spawnTicks > spawnSpeed) {
-            this.game.addEntity(new EntityItem(new MovementItemCts(this.game), MathUtil.getRandomElement(this.itemRegistry)));
+            Item item = MathUtil.getRandomElement(this.itemRegistry);
+            this.game.addEntity(new EntityItem(new MovementItemCts(this.game, item), item));
             this.spawnTicks = 0;
         }
 

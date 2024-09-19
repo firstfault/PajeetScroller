@@ -8,19 +8,20 @@ import in.gov.india.events.EventGamePaused;
 import in.gov.india.events.EventGameQuit;
 import in.gov.india.events.EventGameTick;
 import in.gov.india.events.EventWindowFocus;
+import in.gov.india.gui.screen.impl.gameselect.GameType;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Game {
-    private final String name;
+    private final GameType type;
     private final PajeetScroller pajeetScroller;
     private final List<Entity> entityList = new ArrayList<>();
     private EntityPlayer localPlayer;
     private boolean paused;
 
-    protected Game(String name, PajeetScroller pajeetScroller) {
-        this.name = name;
+    protected Game(GameType type, PajeetScroller pajeetScroller) {
+        this.type = type;
         this.pajeetScroller = pajeetScroller;
 
         pajeetScroller.getEventBus().register(this);
@@ -56,7 +57,7 @@ public abstract class Game {
     }
 
     public final String getName() {
-        return name;
+        return type.getName();
     }
 
     public final PajeetScroller getPajeetScroller() {
@@ -88,7 +89,9 @@ public abstract class Game {
                     if (e1 == e2) continue;
 
                     if (e1.intersects(e2)) {
-                        e1.collide(e2);
+//                        if (e1.getTexture().getCollision().isColliding(e2.getTexture().getCollision(), e1.x, e1.y, e2.x, e2.y)) {
+                            e1.collide(e2);
+//                        }
                     }
                 }
             }

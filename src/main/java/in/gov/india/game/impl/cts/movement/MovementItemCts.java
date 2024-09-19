@@ -2,6 +2,7 @@ package in.gov.india.game.impl.cts.movement;
 
 import in.gov.india.entities.movement.MovementController;
 import in.gov.india.game.Game;
+import in.gov.india.game.impl.cts.items.Item;
 import in.gov.india.util.MathUtil;
 
 public class MovementItemCts extends MovementController {
@@ -10,11 +11,11 @@ public class MovementItemCts extends MovementController {
     private float fallSpeed;
     private final Game game;
 
-    public MovementItemCts(Game game) {
+    public MovementItemCts(Game game, Item item) {
         this.game = game;
         this.positionY = 0.F;
-        this.position = MathUtil.getRandom().nextFloat() * mapSize;
-        this.fallSpeed = 5.F + (MathUtil.getRandom().nextFloat() * 0.2F);
+        this.position = MathUtil.getRandom().nextFloat() * (mapSize - item.getTexture().getWidth());
+        this.fallSpeed = 5.F + (MathUtil.getRandom().nextFloat() * 0.4F);
     }
 
     @Override

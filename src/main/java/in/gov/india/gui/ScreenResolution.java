@@ -15,4 +15,12 @@ public class ScreenResolution extends ScreenPosition {
     public int getHeightI() {
         return (int) getHeight();
     }
+
+    public float getWidthMiddle() {
+        return getWidth() / 2.F;
+    }
+
+    public float getHeightMiddle() {
+        return getHeight() / 2.F;
+    }
 }

@@ -46,10 +46,14 @@ public class TrainManager {
 
     public void draw() {
         for (Train train : trains) {
-            trainTexture.drawQuad(train.x, 0, TRAIN_WIDTH, train.gapY);
-            trainTexture.drawQuad(train.x, train.gapY + TRAIN_GAP, TRAIN_WIDTH,
+            this.drawTrainQuad(train.x, 0, TRAIN_WIDTH, train.gapY);
+            this.drawTrainQuad(train.x, train.gapY + TRAIN_GAP, TRAIN_WIDTH,
                     game.getPajeetScroller().getWindow().getResolution().getHeight() - (train.gapY + TRAIN_GAP));
         }
+    }
+
+    private void drawTrainQuad(float x, float y, int w, float h) {
+        this.trainTexture.drawQuad(x, y, w, h);
     }
 
     public void tick() {

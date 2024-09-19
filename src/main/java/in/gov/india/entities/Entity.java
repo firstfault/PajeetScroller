@@ -42,7 +42,7 @@ public abstract class Entity extends ScreenPosition {
         glPopMatrix();
     }
 
-    protected abstract Texture getTexture();
+    public abstract Texture getTexture();
 
     public void collide(Entity entity) {
 

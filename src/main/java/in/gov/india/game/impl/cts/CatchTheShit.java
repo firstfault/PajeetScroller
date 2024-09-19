@@ -7,6 +7,7 @@ import in.gov.india.game.impl.cts.items.ItemManager;
 import in.gov.india.game.impl.cts.movement.MovementPlayerCts;
 import in.gov.india.gui.ScreenResolution;
 import in.gov.india.gui.render.Renderer;
+import in.gov.india.gui.screen.impl.gameselect.GameType;
 import in.gov.india.util.ColorUtil;
 
 import java.awt.*;
@@ -16,7 +17,7 @@ public class CatchTheShit extends Game {
     private float smell;
 
     public CatchTheShit(PajeetScroller pajeetScroller) {
-        super("Catch The Shit", pajeetScroller);
+        super(GameType.CATCH_THE_SHIT, pajeetScroller);
         this.setLocalPlayer(new EntityPlayer(this, new MovementPlayerCts(this)));
     }
 

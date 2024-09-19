@@ -6,12 +6,13 @@ import in.gov.india.game.impl.fp.entity.Pajeet;
 import in.gov.india.game.impl.fp.entity.TrainManager;
 import in.gov.india.gui.ScreenResolution;
 import in.gov.india.gui.render.Renderer;
+import in.gov.india.gui.screen.impl.gameselect.GameType;
 import in.gov.india.util.ColorUtil;
 
 import java.awt.*;
 
 import static in.gov.india.game.impl.fp.entity.Pajeet.PAJEET_SIZE;
-import static in.gov.india.game.impl.fp.entity.TrainManager.*;
+import static in.gov.india.game.impl.fp.entity.TrainManager.TRAIN_WIDTH;
 
 public class FlappyPajeet extends Game {
     private final TrainManager trainManager;
@@ -20,7 +21,7 @@ public class FlappyPajeet extends Game {
     public static int BASE_SCALE = 1200;
 
     public FlappyPajeet(PajeetScroller pajeetScroller) {
-        super("FlappyPajeet", pajeetScroller);
+        super(GameType.FLAPPYPAJEET, pajeetScroller);
         this.trainManager = new TrainManager(this);
         this.pajeet = new Pajeet(this);
         this.score = 0;

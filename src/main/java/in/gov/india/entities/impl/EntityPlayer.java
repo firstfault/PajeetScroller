@@ -17,7 +17,7 @@ public final class EntityPlayer extends Entity {
     }
 
     @Override
-    protected Texture getTexture() {
+    public Texture getTexture() {
         return pajeet;
     }
 

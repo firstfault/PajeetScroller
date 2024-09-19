@@ -43,7 +43,7 @@ public class Window {
             return;
         }
         if (this.screen != null) {
-            this.screen.close(this);
+            this.screen.close(this, screen);
             pajeetScroller.getEventBus().unregister(this.screen);
         }
         screen.initializeGui(this);
