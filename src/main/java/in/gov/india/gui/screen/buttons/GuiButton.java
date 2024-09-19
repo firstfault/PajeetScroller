@@ -12,8 +12,7 @@ public class GuiButton extends ScreenPosition {
     private final String text;
     private final Runnable action;
 
-    public GuiButton(String text, float x, float y, float width, float height, Runnable action) {
-        super(x, y, width, height);
+    public GuiButton(String text, Runnable action) {
         this.text = text;
         this.action = action;
     }

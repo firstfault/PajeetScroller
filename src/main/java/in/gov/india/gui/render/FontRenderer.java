@@ -42,4 +42,9 @@ public class FontRenderer {
     public float getSize() {
         return size;
     }
+
+    public float drawStringCentered(String text, float x, float y, int color) {
+        final float stringWidth = getStringWidth(text);
+        return drawString(text, x - (stringWidth / 2.F), y, color);
+    }
 }

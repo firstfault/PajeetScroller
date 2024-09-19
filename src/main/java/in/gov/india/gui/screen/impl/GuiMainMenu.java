@@ -22,16 +22,11 @@ public final class GuiMainMenu extends GuiScreen {
     @Override
     public void initialize(Window window) {
         this.soundtrack = window.getAudioManager().getSound("menu_soundtrack.ogg");
-
-        ScreenResolution sr = window.getResolution();
-        float btnWidth = 250.F;
-        float btnHeight = 50.F;
-
-        float y = 260.F;
-
-        buttons.add(new GuiButton("Singleplayer", sr.getWidth() / 2.F - btnWidth / 2.F, y, btnWidth, btnHeight, () -> this.singleplayer(window)));
-        buttons.add(new GuiButton("Settings", sr.getWidth() / 2.F - btnWidth / 2.F, y + (10.F + btnHeight), btnWidth, btnHeight, this::settings));
-        buttons.add(new GuiButton("Tuk-Tuk", sr.getWidth() / 2.F - btnWidth / 2.F, y + (10.F + btnHeight) * 2, btnWidth, btnHeight, () -> this.leave(window)));
+        this.addHorizontalMiddleButtons(window, 250.F,
+                new GuiButton("Singleplayer", () -> this.singleplayer(window)),
+                new GuiButton("Options", this::settings),
+                new GuiButton("Tuk-Tuk", () -> this.leave(window))
+        );
     }
 
     @Override

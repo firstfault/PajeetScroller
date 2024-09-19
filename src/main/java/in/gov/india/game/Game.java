@@ -2,6 +2,7 @@ package in.gov.india.game;
 
 import com.google.common.eventbus.Subscribe;
 import in.gov.india.PajeetScroller;
+import in.gov.india.events.EventGamePaused;
 import in.gov.india.events.EventGameTick;
 
 public abstract class Game {
@@ -17,7 +18,11 @@ public abstract class Game {
     }
 
     public final void setPaused(boolean paused) {
+        if (this.paused == paused) {
+            return;
+        }
         this.paused = paused;
+        pajeetScroller.getEventBus().post(new EventGamePaused(this, this.isPaused()));
     }
 
     public final boolean isPaused() {
