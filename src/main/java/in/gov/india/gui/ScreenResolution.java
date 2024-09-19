@@ -1,26 +1,18 @@
 package in.gov.india.gui;
 
-public class ScreenResolution {
-    private final float width, height;
+import in.gov.india.gui.screen.ScreenPosition;
 
+public class ScreenResolution extends ScreenPosition {
     public ScreenResolution(float width, float height) {
-        this.width = width;
-        this.height = height;
+        this.setPosition(0, 0);
+        this.setSize(width, height);
     }
 
     public int getWidthI() {
-        return (int) width;
+        return (int) getWidth();
     }
 
     public int getHeightI() {
-        return (int) height;
-    }
-
-    public float getWidth() {
-        return width;
-    }
-
-    public float getHeight() {
-        return height;
+        return (int) getHeight();
     }
 }

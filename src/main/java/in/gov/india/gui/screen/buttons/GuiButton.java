@@ -4,7 +4,6 @@ import in.gov.india.events.EventMouseButton;
 import in.gov.india.gui.Window;
 import in.gov.india.gui.misc.MouseButton;
 import in.gov.india.gui.render.FontRenderer;
-import in.gov.india.gui.render.FontType;
 import in.gov.india.gui.screen.ScreenPosition;
 import in.gov.india.gui.textures.Texture;
 import in.gov.india.util.ColorUtil;
@@ -32,7 +31,7 @@ public class GuiButton extends ScreenPosition {
         texture.drawQuad(this, hovered ? 1.F : 0.8F);
         FontRenderer font = window.getRenderer().getSatisfyRegular().get(32.F);
         float stringWidth = font.getStringWidth(this.text);
-        font.drawString(this.text, this.x + (this.getWidth() / 2.F) - (stringWidth / 2.F), this.y + 8.f, ColorUtil.generateWhiteColor(hovered ? 250 : 200));
+        font.drawString(this.text, this.x + (this.getWidth() / 2.F) - (stringWidth / 2.F), this.y + 5.f, ColorUtil.generateWhiteColor(hovered ? 250 : 200));
     }
 
     public String getText() {

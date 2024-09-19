@@ -32,7 +32,7 @@ public class FontRenderer {
             nvgFillColor(fontType.getWindow().getNanoVGContext(), nvgColor);
         }
 
-        return nvgText(fontType.getWindow().getNanoVGContext(), x, y + size - 10.5f, text);
+        return nvgText(fontType.getWindow().getNanoVGContext(), x, y + size - 2.5f, text);
     }
 
     public FontType getFontType() {

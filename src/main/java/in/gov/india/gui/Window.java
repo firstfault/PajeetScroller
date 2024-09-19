@@ -1,26 +1,24 @@
 package in.gov.india.gui;
 
 import in.gov.india.PajeetScroller;
-import in.gov.india.events.EventGameClosed;
-import in.gov.india.events.EventGameTick;
-import in.gov.india.events.EventMouseButton;
+import in.gov.india.events.*;
 import in.gov.india.gui.audio.AudioManager;
 import in.gov.india.gui.misc.MouseButton;
 import in.gov.india.gui.render.Renderer;
 import in.gov.india.gui.screen.GuiScreen;
 import in.gov.india.gui.screen.impl.GuiMainMenu;
 import in.gov.india.util.Stopwatch;
-import org.lwjgl.glfw.*;
+import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.nanovg.NanoVGGL3;
-import org.lwjgl.opengl.*;
+import org.lwjgl.opengl.GL;
 
 import javax.vecmath.Vector2f;
 
-import static org.lwjgl.glfw.Callbacks.*;
+import static org.lwjgl.glfw.Callbacks.glfwFreeCallbacks;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.nanovg.NanoVG.*;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.system.MemoryUtil.*;
+import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class Window {
     private final PajeetScroller pajeetScroller;
@@ -87,6 +85,14 @@ public class Window {
                 this.pajeetScroller.getEventBus().post(new EventMouseButton(this.mousePosition, MouseButton.fromCode(button), action == GLFW_PRESS));
             }
         });
+        glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
+            if (action == GLFW_PRESS || action == GLFW_RELEASE) {
+                this.pajeetScroller.getEventBus().post(new EventKey(action == GLFW_PRESS, key));
+            }
+        });
+        glfwSetWindowFocusCallback(window, ((window, focused) -> {
+            this.pajeetScroller.getEventBus().post(new EventWindowFocus(focused));
+        }));
 
         audioManager.init();
 
