@@ -2,12 +2,12 @@ package in.gov.india.gui.textures;
 
 import com.google.common.eventbus.Subscribe;
 import in.gov.india.PajeetScroller;
-import in.gov.india.events.EventGameClosed;
+import in.gov.india.events.EventWindowClosed;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.glDeleteTextures;
 
 public class TextureManager {
     private final PajeetScroller pajeetScroller;
@@ -19,7 +19,7 @@ public class TextureManager {
     }
 
     @Subscribe
-    public void onGameClosed(EventGameClosed event) {
+    public void onWindowClosed(EventWindowClosed event) {
         this.cleanup();
     }
 

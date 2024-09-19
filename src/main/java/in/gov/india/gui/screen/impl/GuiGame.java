@@ -59,7 +59,10 @@ public class GuiGame extends GuiScreen {
     }
 
     private void addPauseButtons(Window window) {
-        this.addHorizontalMiddleButtons(window, 230.F, new GuiButton("Options", () -> this.options(window)), new GuiButton("Exit Game", () -> this.exit(window)));
+        this.addHorizontalMiddleButtons(window, 230.F,
+                new GuiButton("Resume", () -> this.getGame().setPaused(false)),
+                new GuiButton("Options", () -> this.options(window)),
+                new GuiButton("Exit Game", () -> this.exit(window)));
     }
 
     private void options(Window window) {

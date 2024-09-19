@@ -43,4 +43,8 @@ public abstract class Entity extends ScreenPosition {
     }
 
     protected abstract Texture getTexture();
+
+    public void collide(Entity entity) {
+
+    }
 }

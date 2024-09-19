@@ -58,7 +58,7 @@ public class Window {
         glfwTerminate();
         glfwSetErrorCallback(null).free();
         audioManager.cleanup();
-        pajeetScroller.getEventBus().post(new EventGameClosed());
+        pajeetScroller.getEventBus().post(new EventWindowClosed());
     }
 
     private void init() {

@@ -5,7 +5,9 @@ import in.gov.india.PajeetScroller;
 import in.gov.india.entities.Entity;
 import in.gov.india.entities.impl.EntityPlayer;
 import in.gov.india.events.EventGamePaused;
+import in.gov.india.events.EventGameQuit;
 import in.gov.india.events.EventGameTick;
+import in.gov.india.events.EventWindowFocus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +39,10 @@ public abstract class Game {
         this.getEntityList().add(entity);
     }
 
+    public final void removeEntity(Entity entity) {
+        this.getEntityList().remove(entity);
+    }
+
     public final void setPaused(boolean paused) {
         if (this.paused == paused) {
             return;
@@ -63,16 +69,41 @@ public abstract class Game {
 
     public final void stop() {
         pajeetScroller.getEventBus().unregister(this);
+        pajeetScroller.getEventBus().post(new EventGameQuit(this));
     }
 
     @Subscribe
     private void onGameTick(EventGameTick event) {
         if (!this.isPaused()) {
             this.tick();
-            for (Entity entity : getEntityList()) {
+
+            Entity[] entities = getEntityList().toArray(Entity[]::new);
+
+            for (Entity entity : entities) {
                 entity.tick();
             }
+
+            for (Entity e2 : entities) {
+                for (Entity e1 : entities) {
+                    if (e1 == e2) continue;
+
+                    if (e1.intersects(e2)) {
+                        e1.collide(e2);
+                    }
+                }
+            }
         }
+    }
+
+    @Subscribe
+    public void onWindowFocus(EventWindowFocus event) {
+        if (!event.isFocused()) {
+            this.setPaused(true);
+        }
+    }
+
+    public EntityPlayer getLocalPlayer() {
+        return localPlayer;
     }
 
     public final void drawGame() {

@@ -38,7 +38,7 @@ public class CatchTheShit extends Game {
         float x = sr.getX() + 10.F;
         float y = sr.getY() + 10.F;
 
-        this.drawBar(x, y, this.smell, "Smell", new Color(164, 108, 74).getRGB());
+        this.drawBar(x, y, this.getLocalPlayer().getSmell(), "Smell", new Color(164, 108, 74).getRGB());
     }
 
     private void drawBar(float x, float y, float progress, String text, int color) {
@@ -46,7 +46,7 @@ public class CatchTheShit extends Game {
         final Renderer renderer = this.getPajeetScroller().getWindow().getRenderer();
 
         renderer.drawRect(x, y, width, 26, ColorUtil.changeAlpha(color, 120));
-        renderer.drawRect(x, y, progress * width, 26, color);
+        renderer.drawRect(x, y, (progress / 100.F) * width, 26, color);
         renderer.getSatisfyRegular().get(20.F).drawString(text + ": " + (int)progress + "%", x + 5, y + 1.F, ColorUtil.generateWhiteColor(240));
     }
 }
