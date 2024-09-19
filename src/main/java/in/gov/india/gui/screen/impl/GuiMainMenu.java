@@ -2,7 +2,7 @@ package in.gov.india.gui.screen.impl;
 
 import com.google.common.eventbus.Subscribe;
 import in.gov.india.events.EventGameTick;
-import in.gov.india.game.impl.CatchTheShit;
+import in.gov.india.game.impl.cts.CatchTheShit;
 import in.gov.india.gui.ScreenResolution;
 import in.gov.india.gui.Window;
 import in.gov.india.gui.audio.Sound;

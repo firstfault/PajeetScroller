@@ -42,7 +42,7 @@ public class GuiGame extends GuiScreen {
 
     @Override
     protected void draw(Window window) {
-        game.draw();
+        game.drawGame();
 
         if (game.isPaused()) {
             this.drawPauseMenu(window);
