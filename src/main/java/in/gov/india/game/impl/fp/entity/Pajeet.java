@@ -6,7 +6,6 @@ import in.gov.india.gui.textures.Texture;
 import in.gov.india.keys.KeybindSystem;
 
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL11.glPopMatrix;
 
 public class Pajeet extends MovementController {
     private final Game game;
@@ -20,7 +19,7 @@ public class Pajeet extends MovementController {
     private float pajeetVelocity;
 
     public Pajeet(Game game) {
-        this.pajeetTexture = game.getPajeetScroller().getTextureManager().getTexture("pajeet.png");
+        this.pajeetTexture = game.getPajeetScroller().getCharacterManager().getSelected().getTexture();
         this.startHeight = game.getPajeetScroller().getWindow().getResolution().getHeightI() / 2;
         this.game = game;
     }

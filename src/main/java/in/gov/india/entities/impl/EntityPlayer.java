@@ -12,7 +12,7 @@ public final class EntityPlayer extends Entity {
 
     public EntityPlayer(Game game, MovementController movement) {
         super(game, movement);
-        this.pajeet = game.getPajeetScroller().getTextureManager().getTexture("pajeet.png");
+        this.pajeet = game.getPajeetScroller().getCharacterManager().getSelected().getTexture();
         this.setSize(130.F, 130.F);
     }
 
